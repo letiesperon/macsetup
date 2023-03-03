@@ -1,7 +1,3 @@
-# Taps
-tap "homebrew/cask-fonts"
-tap "homebrew/cask-versions"
-
 # Binaries
 brew "btop"
 brew "gh"
@@ -11,11 +7,11 @@ brew "zsh"
 
 # Development
 brew "python" # or "pyenv"
-brew "rvm"
 brew "redis"
-brew "heroku"
+brew "heroku/brew/heroku"
 brew "pyenv"
 # imagemagick
+# todo. rvm
 brew "n" # node manager  https://github.com/tj/n
 
 # Apps
