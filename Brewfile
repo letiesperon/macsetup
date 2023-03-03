@@ -6,7 +6,6 @@ brew "zsh"
 
 brew "python" # or "pyenv"
 brew "redis"
-brew "heroku/brew/heroku"
 brew "pyenv"
 # imagemagick
 # todo. rvm
