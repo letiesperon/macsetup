@@ -20,7 +20,7 @@
 
 * Clone repo into new hidden directory:
   ```bash
-git clone https://github.com/letiesperon/macsetup.git ~/.macsetup
+  git clone https://github.com/letiesperon/macsetup.git ~/.macsetup
   ```
 
 * Create symlinks in the Home directory to the real files in the repo:
