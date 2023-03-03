@@ -1,4 +1,6 @@
 * Format MacOs to have latest OS
+* Setup Apple ID (Settings / Internet Account / iCloud)
+
 * Install Xcode:
   ```bash
   xcode-select --install
@@ -18,12 +20,12 @@
 
 * Clone repo into new hidden directory:
   ```bash
-  git clone git@github.com:letiesperon/macsetup.git ~/.macsetup
+git clone https://github.com/letiesperon/macsetup.git ~/.macsetup
   ```
 
 * Create symlinks in the Home directory to the real files in the repo:
   ```bash
-  ln -s ~/.macsetup/dotfiles/* ~/
+  ln -s ~/.macsetup/* ~/
   ```
 
 * Install the software listed in the Brewfile:
@@ -32,7 +34,6 @@
   ```
 
 * Manually sign in to 1Password
-* Setup Apple ID (Settings / Internet Account / iCloud)
 * Manually sign in to Google Chrome to sync bookmarks
 * Manually sign in to Workona
 * Manually sign in to all my gmail.com accounts in Google Chrome
