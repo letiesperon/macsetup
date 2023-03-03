@@ -1,0 +1,14 @@
+[user]
+	name = Leti Esperon
+	email = esperonleticia@gmail.com
+[alias]
+	newpush = "!f() { git add . && git commit -m \"$@\" && git push origin HEAD ; }; f"
+	repush = "!f() { git add . && git commit --amend --no-edit && git push origin HEAD -f; }; f"
+	pullclean = "!f() { git checkout master && git pull origin master && git branch --merged master | grep -v \"\\* master\" | xargs -n 1 git branch -d && git branch; }; f"
+	pullcleanm = "!f() { git checkout main && git pull origin main && git branch --merged main | grep -v \"\\* main\" | xargs -n 1 git branch -d && git branch; }; f"
+	drop = "!f() { git add . && git reset --hard HEAD; }; f"
+	pushempty = "!f() { git fetch && git checkout \"$@\" && git commit --allow-empty -m \"Love it!\" && git push origin HEAD; git checkout master; git branch -D \"$@\"; }; f"
+[core]
+	excludesFile = ~/.gitignore
+[init]
+	defaultBranch = main

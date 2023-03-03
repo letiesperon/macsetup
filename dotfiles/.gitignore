@@ -1,0 +1,6 @@
+.vscode/
+env.sh
+.DS_Store
+.idea/
+*.pem
+Caddyfile
