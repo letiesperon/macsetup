@@ -8,7 +8,6 @@ export ZSH="$HOME/.oh-my-zsh"
 
 # PATH
 export PATH="$PATH:$PYENV_ROOT/bin"
-export PATH="$PATH:$HOME/.rvm/bin" # Make sure this is the last PATH variable change.
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -105,7 +104,6 @@ plugins=(
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-source $HOME/.rvm/scripts/rvm # Load RVM into a shell session *as a function*
 source $ZSH/oh-my-zsh.sh
 
-# source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+eval "$(rbenv init - zsh)"
