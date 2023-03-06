@@ -12,6 +12,12 @@ brew "n" # node manager https://github.com/tj/n
 brew "warp" 
 brew "wget"
 
+# For ruby 2.* to work:
+brew "openssl@1.1" 
+brew "readline" 
+brew "libyaml" 
+brew "gmp"
+
 cask "latest" # Update apps easily
 cask "maccy" # Clipboard manager
 cask "rectangle" # Move and resize windows https://rectangleapp.com/
