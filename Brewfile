@@ -9,6 +9,7 @@ brew "redis"
 brew "pyenv"
 brew "rbenv" 
 brew "n" # node manager https://github.com/tj/n
+brew "warp" 
 
 cask "latest" # Update apps easily
 cask "maccy" # Clipboard manager
