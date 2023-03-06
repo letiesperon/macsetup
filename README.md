@@ -42,6 +42,7 @@
 * Manually sign in to all my gmail.com accounts in Google Chrome
 * Manually add Internet Account of all my email accounts
 * Manually sign in in VSCode with Github to sync settings
+* Manually sign in to Warp with Google
 
 * Install ohMyZsh
   ```bash
