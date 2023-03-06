@@ -75,12 +75,25 @@
   export EDITOR='subl -w'
   ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl /usr/local/bin/subl
   ```
+  
+- Follow installation for rbenv [here](https://github.com/rbenv/ruby-build/wiki#suggested-build-environment). In short, for ruby 2.*:
+  ```bash
+  brew install openssl@1.1 readline libyaml gmp
+  export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
+  ``` 
+
+- Follow instructiond for postgres app installation [here](sudo mkdir -p /etc/paths.d &&
+echo /Applications/Postgres.app/Contents/Versions/latest/bin | sudo tee /etc/paths.d/postgresapp). In short:
+  ```bash
+  sudo mkdir -p /etc/paths.d &&
+  echo /Applications/Postgres.app/Contents/Versions/latest/bin | sudo tee /etc/paths.d/postgresapp
+  ``` 
+  (In some situation I had to reinstall xcode)
 
 - Allow gem install bundler to succeed:
 
   ```bash
   export GEM_HOME="$HOME/.gem"
-  
   export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
   ```
 
