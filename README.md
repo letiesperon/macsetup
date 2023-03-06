@@ -80,6 +80,8 @@
 
   ```bash
   export GEM_HOME="$HOME/.gem"
+  
+  export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
   ```
 
 - [Setup local git to your github account](https://gist.github.com/letiesperon/ce8217bc99195032f9dda3c67b424150)
