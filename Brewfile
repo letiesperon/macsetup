@@ -7,9 +7,8 @@ brew "zsh"
 brew "python" # or "pyenv"
 brew "redis"
 brew "pyenv"
-# imagemagick
-# todo. rvm
-brew "n" # node manager  https://github.com/tj/n
+brew "rbenv" 
+brew "n" # node manager https://github.com/tj/n
 
 cask "latest" # Update apps easily
 cask "maccy" # Clipboard manager
