@@ -8,8 +8,6 @@ export ZSH="$HOME/.oh-my-zsh"
 
 # PATH
 export PATH="$PATH:$PYENV_ROOT/bin"
-export PATH="$PATH:$HOME/.cabal/bin"
-export PATH="$PATH:$HOME/.ghcup/bin"
 export PATH="$PATH:$HOME/.rvm/bin" # Make sure this is the last PATH variable change.
 
 # Set name of the theme to load --- if set to "random", it will
