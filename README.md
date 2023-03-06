@@ -96,6 +96,13 @@ echo /Applications/Postgres.app/Contents/Versions/latest/bin | sudo tee /etc/pat
   export GEM_HOME="$HOME/.gem"
   export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
   ```
+  
+- Install node:
+  ```bash 
+   sudo mkdir -p "/usr/local/n"
+   sudo chown letiesperon "/usr/local/n"
+   n lts
+   ``` 
 
 - [Setup local git to your github account](https://gist.github.com/letiesperon/ce8217bc99195032f9dda3c67b424150)
 - [Setup Sublime preferences](https://gist.github.com/letiesperon/7090a100902871cb2b9f6941a1f430ed)
