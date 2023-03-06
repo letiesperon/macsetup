@@ -11,6 +11,7 @@ brew "rbenv"
 brew "n" # node manager https://github.com/tj/n
 brew "warp" 
 brew "wget"
+brew "yarn" 
 
 # For ruby 2.* to work:
 brew "openssl@1.1" 
