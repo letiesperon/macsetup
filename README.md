@@ -25,7 +25,10 @@
 
 * Create symlinks in the Home directory to the real files in the repo:
   ```bash
-  ln -s ~/.macsetup/* ~/
+  rm ~/.gitconfig
+  ln -s ~/.macsetup/dotfiles/.gitconfig ~/.gitconfig
+  ln -s ~/.macsetup/dotfiles/.gitignore ~/.gitignore
+  ln -s ~/.macsetup/dotfiles/.zshrc ~/.zshrc
   ```
 
 * Install the software listed in the Brewfile:
