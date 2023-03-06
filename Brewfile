@@ -10,6 +10,7 @@ brew "pyenv"
 brew "rbenv" 
 brew "n" # node manager https://github.com/tj/n
 brew "warp" 
+brew "wget"
 
 cask "latest" # Update apps easily
 cask "maccy" # Clipboard manager
