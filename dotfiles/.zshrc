@@ -104,6 +104,8 @@ plugins=(
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+alias be="bundle exec"
+
 source $ZSH/oh-my-zsh.sh
 
 eval "$(rbenv init - zsh)"
