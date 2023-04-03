@@ -5,9 +5,13 @@
 export LANG=en_US.UTF-8
 export PYENV_ROOT="$HOME/.pyenv"
 export ZSH="$HOME/.oh-my-zsh"
+export N_PRESERVE_NPM=1
+export N_PRESERVE_COREPACK=1
+
 
 # PATH
 export PATH="$PATH:$PYENV_ROOT/bin"
+export PATH="$PATH:/usr/local/sbin"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -107,6 +111,16 @@ plugins=(
 alias be="bundle exec"
 alias test-reset="bundle exec rake db:drop RAILS_ENV=test && bundle exec rake db:create RAILS_ENV=test && bundle exec rails db:schema:load RAILS_ENV=test && bundle exec rspec"
 
+alias brewery="brew update && brew upgrade && brew upgrade --cask && brew cleanup"
+alias c="clear"
+alias show_path="tr ':' '\n' <<< \"$PATH\""
+alias speedtest="networkQuality"
+alias gitconfig="code $HOME/.gitconfig"
+alias zshconfig="code $ZDOTDIR/.zshrc"
+alias macsetup="code $ZDOTDIR/.macsetup"
+
 source $ZSH/oh-my-zsh.sh
 
 eval "$(rbenv init - zsh)"
+
+eval "$(pyenv init -)"
