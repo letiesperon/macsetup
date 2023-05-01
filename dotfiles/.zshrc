@@ -116,8 +116,8 @@ alias c="clear"
 alias show_path="tr ':' '\n' <<< \"$PATH\""
 alias speedtest="networkQuality"
 alias gitconfig="code $HOME/.gitconfig"
-alias zshconfig="code $ZDOTDIR/.zshrc"
-alias macsetup="code $ZDOTDIR/.macsetup"
+alias zshconfig="code $HOME/.zshrc"
+alias macsetup="code $HOME/.macsetup"
 
 source $ZSH/oh-my-zsh.sh
 

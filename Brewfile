@@ -6,6 +6,7 @@ brew "zsh"
 
 brew "pyenv"
 brew "redis"
+brew "postgresql@15"
 brew "pyenv"
 brew "rbenv"
 brew "n" # node manager https://github.com/tj/n
