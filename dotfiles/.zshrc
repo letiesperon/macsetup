@@ -109,7 +109,7 @@ plugins=(
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 alias be="bundle exec"
-alias test-reset="bundle exec rake db:drop RAILS_ENV=test && bundle exec rake db:create RAILS_ENV=test && bundle exec rails db:schema:load RAILS_ENV=test && bundle exec rspec"
+alias test-reset="bundle exec rake db:drop RAILS_ENV=test && bundle exec rake db:create RAILS_ENV=test && bundle exec rails db:schema:load RAILS_ENV=test"
 
 alias brewery="brew update && brew upgrade && brew upgrade --cask && brew cleanup"
 alias c="clear"

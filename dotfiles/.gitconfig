@@ -4,8 +4,8 @@
 [alias]
 	newpush = "!f() { git add . && git commit -m \"$@\" && git push origin HEAD ; }; f"
 	repush = "!f() { git add . && git commit --amend --no-edit && git push origin HEAD -f; }; f"
-	pullclean = "!f() { git checkout master && git pull origin master && git branch --merged master | grep -v \"\\* master\" | xargs -n 1 git branch -d && git branch; }; f"
-	pullcleanm = "!f() { git checkout main && git pull origin main && git branch --merged main | grep -v \"\\* main\" | xargs -n 1 git branch -d && git branch; }; f"
+	pullclean = "!f() { git checkout master && git pull origin master && git branch --merged master | grep -v \"\\* master\" | xargs -n 1 git branch -d; }; f"
+	pullcleanm = "!f() { git checkout main && git pull origin main && git branch --merged main | grep -v \"\\* main\" | xargs -n 1 git branch -d; }; f"
 	pruneclean = "!f() { git checkout master; git fetch -p && git branch -vv | awk '/: gone]/{print $1}' | xargs git branch -d; }; f"
 	prunecleanm = "!f() { git checkout main; git fetch -p && git branch -vv | awk '/: gone]/{print $1}' | xargs git branch -d; }; f"
 	drop = "!f() { git add . && git reset --hard HEAD; }; f"
