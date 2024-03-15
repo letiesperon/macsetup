@@ -97,6 +97,8 @@ alias zshconfig="code $HOME/.zshrc"
 
 source $ZSH/oh-my-zsh.sh
 
+alias gb='git branch --sort=-committerdate'
+
 eval "$(rbenv init - zsh)"
 
 eval "$(pyenv init -)"
