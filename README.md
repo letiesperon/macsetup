@@ -39,7 +39,7 @@
 - Install the software listed in the Brewfile:
 
   ```bash
-  brew bundle --file ~/.macsetup/dotfiles/Brewfile
+  brew bundle --file ~/.macsetup/Brewfile
   ```
 
 - Manually sign in to 1Password
@@ -83,22 +83,12 @@
   export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
   ```
 
-- Follow instructiond for postgres app installation [here](sudo mkdir -p /etc/paths.d &&
-  echo /Applications/Postgres.app/Contents/Versions/latest/bin | sudo tee /etc/paths.d/postgresapp). In short:
+- Create postgres role
 
-  ```bash
-  sudo mkdir -p /etc/paths.d &&
-  echo /Applications/Postgres.app/Contents/Versions/latest/bin | sudo tee /etc/paths.d/postgresapp
-  ```
-
-  (In some situation I had to reinstall xcode)
-
-- Allow gem install bundler to succeed:
-
-  ```bash
-  export GEM_HOME="$HOME/.gem"
-  export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
-  ```
+```
+createuser -s postgres
+brew services restart postgresql
+```
 
 - Install node:
 
@@ -110,22 +100,3 @@
 
 - [Setup local git to your github account](https://gist.github.com/letiesperon/ce8217bc99195032f9dda3c67b424150)
 - [Setup Sublime preferences](https://gist.github.com/letiesperon/7090a100902871cb2b9f6941a1f430ed)
-
----
-
-### Ruby projects considerations
-
-I had to run
-
-```ruby
-brew link postgresql@15 --force
-```
-
-so that `pg` gem can be installed correctly.
-
-When failing because role `postgres` is missing:
-
-```
-createuser -s postgres
-brew services restart postgresql@15
-```

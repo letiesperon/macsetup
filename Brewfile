@@ -7,19 +7,17 @@ brew "zsh"
 brew "pyenv"
 brew "redis"
 brew "postgresql@15"
-brew "pyenv"
 brew "rbenv"
 brew "n" # node manager https://github.com/tj/n
 brew "warp"
 brew "wget"
-brew "yarn"
 brew "skitch"
 
 # For ruby 2.* to work:
-brew "openssl@1.1"
-brew "readline"
-brew "libyaml"
-brew "gmp"
+# brew "openssl@1.1"
+# brew "readline"
+# brew "libyaml"
+# brew "gmp"
 
 cask "latest" # Update apps easily
 cask "maccy" # Clipboard manager
@@ -38,3 +36,5 @@ cask "spotify"
 cask "zoom"
 tap "heroku/brew"
 brew "heroku"
+
+brew "opensearch"

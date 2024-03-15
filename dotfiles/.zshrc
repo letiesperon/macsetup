@@ -1,29 +1,29 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+#!/bin/zsh
+
+typeset -U path # Prevent duplicate entries on the $PATH
 
 # ENV VARS
-export LANG=en_US.UTF-8
+export LANG="en_US.UTF-8"
 export PYENV_ROOT="$HOME/.pyenv"
+export RBENV_ROOT="$HOME/.rbenv"
 export ZSH="$HOME/.oh-my-zsh"
+export GEM_HOME="$HOME/.gem"
 export N_PRESERVE_NPM=1
 export N_PRESERVE_COREPACK=1
 
-
 # PATH
-export PATH="$PATH:$PYENV_ROOT/bin"
-export PATH="$PATH:/usr/local/sbin"
+path+=$N_PREFIX/bin
+path+=$PYENV_ROOT/bin
+path+=$RBENV_ROOT/shims
+path+=$GEM_HOME/bin # Ruby gems
+path=('/opt/homebrew/bin' '/opt/homebrew/sbin' $path) # Ensure Homebrew installed binaries take precedence
+export PATH # Export to sub-processes (make it inherited by child processes)
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="robbyrussell"
-
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in $ZSH/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -85,39 +85,15 @@ plugins=(
 	zsh-syntax-highlighting
 )
 
-# User configuration
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
 alias be="bundle exec"
-alias test-reset="bundle exec rake db:drop RAILS_ENV=test && bundle exec rake db:create RAILS_ENV=test && bundle exec rails db:schema:load RAILS_ENV=test"
-
 alias brewery="brew update && brew upgrade && brew upgrade --cask && brew cleanup"
 alias c="clear"
+alias gitconfig="code $HOME/.gitconfig"
+alias macsetup="code $HOME/.macsetup"
 alias show_path="tr ':' '\n' <<< \"$PATH\""
 alias speedtest="networkQuality"
-alias gitconfig="code $HOME/.gitconfig"
+alias test-reset="bundle exec rake db:drop RAILS_ENV=test && bundle exec rake db:create RAILS_ENV=test && bundle exec rails db:schema:load RAILS_ENV=test"
 alias zshconfig="code $HOME/.zshrc"
-alias macsetup="code $HOME/.macsetup"
 
 source $ZSH/oh-my-zsh.sh
 
