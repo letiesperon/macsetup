@@ -99,6 +99,39 @@ source $ZSH/oh-my-zsh.sh
 
 alias gb='git branch --sort=-committerdate'
 
+# Alias to create a file along with its parent directories if they do not exist:
+alias stouch='function _mkfile() { mkdir -p "$(dirname "$1")" && touch "$1"; }; _mkfile'
+
+# Function to check or create and run spec file for a Rails app using RSpec,
+# used from VSCode shortcut (configured from Terminal->Configure Tasks)
+run_or_create_spec() {
+  # Get the file path from the argument
+  original_file_path="$1"
+
+  # Construct the spec file path
+  # Replace "app/" with "spec/":
+  modified_file_path="${original_file_path//app\//spec/}"
+  # Add "_spec" before the extension:
+  modified_file_path="${modified_file_path%.*}_spec.${original_file_path##*.}"
+
+  # Convert the absolute path to a relative path
+  relative_modified_file_path=$(echo "$modified_file_path" | sed "s|^$(pwd)/||")
+
+  # Check if the spec file exists
+  if [ -f "$modified_file_path" ]; then
+    echo "Running spec file: $relative_modified_file_path"
+    bundle exec rspec "$modified_file_path"
+  else
+    echo "Spec file does not exist. Creating: $relative_modified_file_path"
+    mkdir -p "$(dirname "$modified_file_path")"
+    touch "$modified_file_path"
+    echo "# frozen_string_literal: true" >> "$modified_file_path"
+
+    # Open the file in Visual Studio Code:
+    code "$modified_file_path"
+  fi
+}
+
 eval "$(rbenv init - zsh)"
 
 eval "$(pyenv init -)"
