@@ -2,20 +2,14 @@
 
 typeset -U path # Prevent duplicate entries on the $PATH
 
-# ENV VARS
-export LANG="en_US.UTF-8"
-export PYENV_ROOT="$HOME/.pyenv"
-export RBENV_ROOT="$HOME/.rbenv"
 export ZSH="$HOME/.oh-my-zsh"
-export GEM_HOME="$HOME/.gem"
-export N_PRESERVE_NPM=1
-export N_PRESERVE_COREPACK=1
+
+eval "$(rbenv init - zsh)"
+eval "$(pyenv init -)"
 
 # PATH
 path+=$N_PREFIX/bin
 path+=$PYENV_ROOT/bin
-path+=$RBENV_ROOT/shims
-path+=$GEM_HOME/bin # Ruby gems
 path=('/opt/homebrew/bin' '/opt/homebrew/sbin' $path) # Ensure Homebrew installed binaries take precedence
 export PATH # Export to sub-processes (make it inherited by child processes)
 
@@ -94,13 +88,11 @@ alias show_path="tr ':' '\n' <<< \"$PATH\""
 alias speedtest="networkQuality"
 alias test-reset="bundle exec rake db:drop RAILS_ENV=test && bundle exec rake db:create RAILS_ENV=test && bundle exec rails db:schema:load RAILS_ENV=test"
 alias zshconfig="code $HOME/.zshrc"
-
-source $ZSH/oh-my-zsh.sh
-
 alias gb='git branch --sort=-committerdate'
-
 # Alias to create a file along with its parent directories if they do not exist:
 alias stouch='function _mkfile() { mkdir -p "$(dirname "$1")" && touch "$1"; }; _mkfile'
+
+source $ZSH/oh-my-zsh.sh
 
 # Function to check or create and run spec file for a Rails app using RSpec,
 # used from VSCode shortcut (configured from Terminal->Configure Tasks)
@@ -131,7 +123,3 @@ run_or_create_spec() {
     code "$modified_file_path"
   fi
 }
-
-eval "$(rbenv init - zsh)"
-
-eval "$(pyenv init -)"
