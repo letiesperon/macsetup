@@ -80,6 +80,7 @@ plugins=(
 )
 
 alias be="bundle exec"
+alias bl="bundle exec rails linters -a"
 alias brewery="brew update && brew upgrade && brew upgrade --cask && brew cleanup"
 alias c="clear"
 alias gitconfig="code $HOME/.gitconfig"
