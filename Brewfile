@@ -6,12 +6,13 @@ brew "zsh"
 
 brew "pyenv"
 brew "redis"
-brew "postgresql@15"
+brew "postgresql@16"
 brew "rbenv"
 brew "n" # node manager https://github.com/tj/n
 brew "warp"
 brew "wget"
 brew "skitch"
+brew "chatgpt"
 
 # For ruby 2.* to work:
 # brew "openssl@1.1"
@@ -34,6 +35,7 @@ cask "whatsapp"
 cask "docker"
 cask "spotify"
 cask "zoom"
+
 tap "heroku/brew"
 brew "heroku"
 

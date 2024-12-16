@@ -91,6 +91,7 @@ alias zshconfig="code $HOME/.zshrc"
 alias gb='git branch --sort=-committerdate'
 # Alias to create a file along with its parent directories if they do not exist:
 alias stouch='function _mkfile() { mkdir -p "$(dirname "$1")" && touch "$1"; }; _mkfile'
+alias killpg='pkill -9 postgres'
 
 source $ZSH/oh-my-zsh.sh
 
