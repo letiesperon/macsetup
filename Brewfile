@@ -9,9 +9,10 @@ brew "redis"
 brew "postgresql@16"
 brew "rbenv"
 brew "n" # node manager https://github.com/tj/n
-brew "warp"
+# brew "uv" # python version and package manager
+brew "warp" # terminal
 brew "wget"
-brew "skitch"
+brew "skitch" # drawing arrows over images
 brew "chatgpt"
 
 # For ruby 2.* to work:
