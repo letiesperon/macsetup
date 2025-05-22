@@ -125,3 +125,40 @@ run_or_create_spec() {
     code "$modified_file_path"
   fi
 }
+
+
+
+rspec_diff() {
+  # 1) Specs changed against master (added, copied, modified or renamed)
+  local diff_specs
+  diff_specs=$(git diff --name-only --diff-filter=ACMR master...HEAD | grep '_spec\.rb$' || true)
+
+  # 2) Specs in uncommitted state (staged + unstaged)
+  local status_specs
+  status_specs=$(git status --porcelain \
+    | grep '_spec\.rb$' \
+    | awk '($1 ~ /^D/) { next } ($1 ~ /^R/) { sub(/.* -> /, ""); print; next } { print $2 }' || true)
+
+  # 3) Combine lists, dedupe, and filter out empty lines
+  local specs=()
+  local line
+  while IFS= read -r line; do
+    [[ -z "$line" ]] && continue
+    specs+=("$line")
+  done < <(
+    printf "%s\n%s\n" "$diff_specs" "$status_specs" \
+    | grep -v '^$' \
+    | sort -u
+  )
+
+  # 4) If no specs, notify and exit
+  if [ ${#specs[@]} -eq 0 ]; then
+    echo "No changed tests detected."
+    return 0
+  fi
+
+  # 5) Print summary and execute
+  echo "Executing tests for:"
+  printf "  %s\n" "${specs[@]}"
+  bundle exec rspec "${specs[@]}"
+}
