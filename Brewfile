@@ -36,6 +36,7 @@ cask "whatsapp"
 cask "docker"
 cask "spotify"
 cask "zoom"
+cask "betterdisplay" # Adjust brightness of external monitors https://betterdisplay.app/
 
 tap "heroku/brew"
 brew "heroku"

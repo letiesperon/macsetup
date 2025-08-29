@@ -1,0 +1,138 @@
+#!/bin/bash
+
+# Spotify Downloader Script
+# Usage: spotify-download <spotify_url>
+
+# Note: Removed 'set -e' to handle timeout exit codes properly
+
+# Configuration
+SPOTDL_PATH="/Users/letiesperon/Library/Python/3.9/bin/spotdl"
+BASE_DIR="/Users/letiesperon/Desktop/Spotify"
+SPOTIFY_URL="$1"
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# Function to print colored output
+print_status() {
+    echo -e "${BLUE}[INFO]${NC} $1"
+}
+
+print_success() {
+    echo -e "${GREEN}[SUCCESS]${NC} $1"
+}
+
+print_error() {
+    echo -e "${RED}[ERROR]${NC} $1"
+}
+
+print_warning() {
+    echo -e "${YELLOW}[WARNING]${NC} $1"
+}
+
+# Check if URL is provided
+if [ -z "$SPOTIFY_URL" ]; then
+    print_error "Please provide a Spotify URL"
+    echo "Usage: spotify <spotify_playlist_or_track_url>"
+    echo "Examples:"
+    echo "  spotify https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M"
+    echo "  spotify https://open.spotify.com/track/4iV5W9uYEdYUVa79Axb7Rh"
+    exit 1
+fi
+
+# Create base directory if it doesn't exist
+mkdir -p "$BASE_DIR"
+
+# Check if it's a playlist or track
+if [[ "$SPOTIFY_URL" == *"/playlist/"* ]]; then
+    print_status "Detected playlist URL"
+    
+    # Extract playlist ID and get playlist name
+    print_status "Getting playlist information..."
+    
+    # Use spotdl to get playlist info and extract name
+    PLAYLIST_INFO=$($SPOTDL_PATH --save --output /tmp "$SPOTIFY_URL" 2>/dev/null || echo "")
+    
+    # Try to extract playlist name from the URL by making a simple request
+    # We'll use a safe fallback name if we can't get the real name
+    PLAYLIST_NAME=$(echo "$SPOTIFY_URL" | sed 's/.*playlist\///; s/?.*//; s/[^a-zA-Z0-9]/_/g')
+    
+    # If playlist name is just ID, try to get a better name
+    if [ ${#PLAYLIST_NAME} -eq 22 ]; then
+        PLAYLIST_NAME="Playlist_$PLAYLIST_NAME"
+    fi
+    
+    OUTPUT_DIR="$BASE_DIR/$PLAYLIST_NAME"
+    print_status "Downloading playlist to: $OUTPUT_DIR"
+    
+elif [[ "$SPOTIFY_URL" == *"/track/"* ]]; then
+    print_status "Detected track URL"
+    OUTPUT_DIR="$BASE_DIR"
+    print_status "Downloading track to: $OUTPUT_DIR"
+    
+else
+    print_error "Invalid Spotify URL. Please provide a playlist or track URL."
+    exit 1
+fi
+
+# Create output directory
+mkdir -p "$OUTPUT_DIR"
+
+# Function to handle completion and show results
+handle_completion() {
+    echo "----------------------------------------"
+    
+    # Show what was downloaded
+    DOWNLOAD_COUNT=$(find "$OUTPUT_DIR" -name "*.mp3" 2>/dev/null | wc -l | xargs)
+    
+    if [ "$DOWNLOAD_COUNT" -gt 0 ]; then
+        print_success "Successfully downloaded $DOWNLOAD_COUNT songs"
+        print_success "Files saved to: $OUTPUT_DIR"
+        
+        # Check for failed downloads by looking at the log output
+        if [ -f "/tmp/spotify_download.log" ]; then
+            FAILED_COUNT=$(grep -c "AudioProviderError\|ERROR\|Failed" /tmp/spotify_download.log 2>/dev/null || echo "0")
+            if [ "$FAILED_COUNT" -gt 0 ]; then
+                print_warning "$FAILED_COUNT songs failed to download"
+                print_status "Failed songs logged to: /tmp/spotify_download.log"
+                
+                # Show a few examples of failed songs
+                echo ""
+                echo "Examples of failed downloads:"
+                grep -A 1 -B 1 "AudioProviderError\|ERROR\|Failed" /tmp/spotify_download.log 2>/dev/null | head -10 | while read line; do
+                    if [[ "$line" == *"Downloaded"* ]] || [[ "$line" == *"AudioProviderError"* ]] || [[ "$line" == *"ERROR"* ]]; then
+                        echo "  $line"
+                    fi
+                done
+                echo ""
+            fi
+        fi
+        
+        # Open the folder in Finder
+        print_status "Opening download folder..."
+        open "$OUTPUT_DIR"
+    else
+        print_error "No songs were downloaded"
+        print_status "Check the output above for errors"
+        return 1
+    fi
+}
+
+# Download with spotdl
+print_status "Starting download..."
+print_warning "Note: If download appears stuck after completion, press Ctrl+C (this is a spotDL bug)"
+echo "----------------------------------------"
+
+# Trap Ctrl+C to show a clean exit message and results
+trap 'echo ""; print_warning "Download interrupted by user (spotDL hang detected)"; handle_completion; exit 0' INT
+
+# Run spotDL with threads for better performance and capture output
+$SPOTDL_PATH --threads 3 --output "$OUTPUT_DIR" "$SPOTIFY_URL" 2>&1 | tee /tmp/spotify_download.log
+EXIT_CODE=$?
+
+# If we get here, spotDL actually completed (rare!)
+handle_completion

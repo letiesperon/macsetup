@@ -4,3 +4,4 @@ env.sh
 .idea/
 *.pem
 Caddyfile
+.claude/settings.local.json

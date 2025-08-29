@@ -94,6 +94,9 @@ alias gb='git branch --sort=-committerdate'
 alias stouch='function _mkfile() { mkdir -p "$(dirname "$1")" && touch "$1"; }; _mkfile'
 alias killpg='pkill -9 postgres'
 
+# Spotify Downloader - Download playlists and songs easily
+alias spotify='/Users/letiesperon/.local/bin/spotify-download'
+
 source $ZSH/oh-my-zsh.sh
 
 # Function to check or create and run spec file for a Rails app using RSpec,
@@ -162,3 +165,8 @@ rspec_diff() {
   printf "  %s\n" "${specs[@]}"
   bundle exec rspec "${specs[@]}"
 }
+export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
+alias spotify-failed="/Users/letiesperon/.local/bin/spotify-failed"
+alias spotify-failed="/Users/letiesperon/.local/bin/spotify-failed"
+
+
