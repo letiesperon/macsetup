@@ -4,15 +4,14 @@ brew "git"
 brew "ripgrep"
 brew "zsh"
 
-brew "pyenv"
 brew "redis"
-brew "postgresql@16"
-brew "rbenv"
-brew "n" # node manager https://github.com/tj/n
+# brew "postgresql@16"
+# brew "pyenv"
+# brew "rbenv"
+# brew "n" # node manager https://github.com/tj/n
 # brew "uv" # python version and package manager
 brew "warp" # terminal
 brew "wget"
-brew "skitch" # drawing arrows over images
 brew "chatgpt"
 
 # For ruby 2.* to work:
