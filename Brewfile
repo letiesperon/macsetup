@@ -4,12 +4,9 @@ brew "git"
 brew "ripgrep"
 brew "zsh"
 
-brew "redis"
-# brew "postgresql@16"
-# brew "pyenv"
-# brew "rbenv"
-# brew "n" # node manager https://github.com/tj/n
-# brew "uv" # python version and package manager
+brew "mise"
+brew "ruby-build" # Required by mise to install ruby
+
 brew "warp" # terminal
 brew "wget"
 brew "chatgpt"
@@ -36,8 +33,5 @@ cask "docker"
 cask "spotify"
 cask "zoom"
 cask "betterdisplay" # Adjust brightness of external monitors https://betterdisplay.app/
-
-tap "heroku/brew"
-brew "heroku"
 
 brew "opensearch"

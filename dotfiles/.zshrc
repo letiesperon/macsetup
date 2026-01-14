@@ -4,15 +4,6 @@ typeset -U path # Prevent duplicate entries on the $PATH
 
 export ZSH="$HOME/.oh-my-zsh"
 
-eval "$(rbenv init - zsh)"
-eval "$(pyenv init -)"
-
-# PATH
-path+=$N_PREFIX/bin
-path+=$PYENV_ROOT/bin
-path=('/opt/homebrew/bin' '/opt/homebrew/sbin' $path) # Ensure Homebrew installed binaries take precedence
-export PATH # Export to sub-processes (make it inherited by child processes)
-
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
@@ -129,8 +120,6 @@ run_or_create_spec() {
   fi
 }
 
-
-
 rspec_diff() {
   # 1) Specs changed against master (added, copied, modified or renamed)
   local diff_specs
@@ -165,8 +154,7 @@ rspec_diff() {
   printf "  %s\n" "${specs[@]}"
   bundle exec rspec "${specs[@]}"
 }
-export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
-alias spotify-failed="/Users/letiesperon/.local/bin/spotify-failed"
+
 alias spotify-failed="/Users/letiesperon/.local/bin/spotify-failed"
 
-
+eval "$(mise activate zsh)"
