@@ -158,3 +158,4 @@ rspec_diff() {
 alias spotify-failed="/Users/letiesperon/.local/bin/spotify-failed"
 
 eval "$(mise activate zsh)"
+export PATH="$HOME/.local/bin:$PATH"

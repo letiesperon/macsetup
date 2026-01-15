@@ -34,6 +34,7 @@
   rm ~/.gitconfig
   ln -s ~/.macsetup/dotfiles/.gitconfig ~/.gitconfig
   ln -s ~/.macsetup/dotfiles/.gitignore ~/.gitignore
+  ln -s ~/.macsetup/dotfiles/.zprofile ~/.zprofile
   ln -s ~/.macsetup/dotfiles/.zshrc ~/.zshrc
 
   mise trust --all
