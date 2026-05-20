@@ -5,3 +5,5 @@ env.sh
 *.pem
 Caddyfile
 .claude/settings.local.json
+CLAUDE.local.md
+work.md
