@@ -157,5 +157,177 @@ rspec_diff() {
 
 alias spotify-failed="/Users/letiesperon/.local/bin/spotify-failed"
 
-eval "$(mise activate zsh)"
 export PATH="$HOME/.local/bin:$PATH"
+
+# Source khepri helper functions:
+[ -f ~/Desktop/Projects/khepri/.khepri.bashrc ] && source ~/Desktop/Projects/khepri/.khepri.bashrc
+
+# Load SSH key into agent for Docker to access private GitHub repos (e.g., wall-e).
+# Required for `docker compose up` in khepri - containers use SSH_AUTH_SOCK to clone dependencies.
+ssh-add --apple-use-keychain ~/.ssh/id_ed25519 2>/dev/null
+
+# ----
+
+eval "$(direnv hook zsh)"
+# BEGIN_AWS_SSO_CLI
+
+# AWS SSO requires `bashcompinit` which needs to be enabled once and
+# only once in your shell.  Hence we do not include the two lines:
+#
+# autoload -Uz +X compinit && compinit
+# autoload -Uz +X bashcompinit && bashcompinit
+#
+# If you do not already have these lines, you must COPY the lines 
+# above, place it OUTSIDE of the BEGIN/END_AWS_SSO_CLI markers
+# and of course uncomment it
+
+__aws_sso_profile_complete() {
+     local _args=${AWS_SSO_HELPER_ARGS:- -L error}
+    _multi_parts : "($(/opt/homebrew/bin/aws-sso ${=_args} list --csv Profile))"
+}
+
+aws-sso-profile() {
+    local _args=${AWS_SSO_HELPER_ARGS:- -L error}
+    local _sso=""
+    local _profile=""
+    
+    if [ -n "$AWS_PROFILE" ]; then
+        echo "Unable to assume a role while AWS_PROFILE is set"
+        return 1
+    fi
+
+    # Parse arguments
+    while [ $# -gt 0 ]; do
+        case "$1" in
+            -S|--sso)
+                shift
+                if [ -z "$1" ]; then
+                    echo "Error: -S/--sso requires an argument"
+                    return 1
+                fi
+                _sso="$1"
+                shift
+                ;;
+            -*)
+                echo "Unknown option: $1"
+                echo "Usage: aws-sso-profile [-S|--sso <sso-instance>] <profile>"
+                return 1
+                ;;
+            *)
+                if [ -z "$_profile" ]; then
+                    _profile="$1"
+                else
+                    echo "Error: Multiple profiles specified"
+                    return 1
+                fi
+                shift
+                ;;
+        esac
+    done
+
+    if [ -z "$_profile" ]; then
+        echo "Usage: aws-sso-profile [-S|--sso <sso-instance>] <profile>"
+        return 1
+    fi
+
+    # Build and execute the eval command with optional SSO flag
+    if [ -n "$_sso" ]; then
+        eval $(/opt/homebrew/bin/aws-sso ${=_args} -S "$_sso" eval -p "$_profile")
+    else
+        eval $(/opt/homebrew/bin/aws-sso ${=_args} eval -p "$_profile")
+    fi
+    
+    if [ "$AWS_SSO_PROFILE" != "$_profile" ]; then
+        return 1
+    fi
+}
+
+aws-sso-clear() {
+    local _args=${AWS_SSO_HELPER_ARGS:- -L error}
+    if [ -z "$AWS_SSO_PROFILE" ]; then
+        echo "AWS_SSO_PROFILE is not set"
+        return 1
+    fi
+    eval $(/opt/homebrew/bin/aws-sso ${=_args} eval -c)
+}
+
+compdef __aws_sso_profile_complete aws-sso-profile
+complete -C /opt/homebrew/bin/aws-sso aws-sso
+
+# END_AWS_SSO_CLI
+
+# bun completions
+[ -s "/Users/letiesperon/.bun/_bun" ] && source "/Users/letiesperon/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# Pull/fetch all repos in ~/Desktop/Projects in parallel
+pullall() {
+  setopt local_options no_monitor
+  local projects_dir="$HOME/Desktop/Projects"
+  local tmpdir
+  tmpdir=$(mktemp -d)
+  local green=$'\033[0;32m' yellow=$'\033[0;33m' red=$'\033[0;31m' reset=$'\033[0m'
+
+  for dir in "$projects_dir"/*/; do
+    [[ -d "$dir/.git" ]] || continue
+    (
+      local name branch current out
+      name=$(basename "$dir")
+
+      branch=$(git -C "$dir" symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's|refs/remotes/origin/||')
+      if [[ -z "$branch" ]]; then
+        if git -C "$dir" show-ref --verify --quiet refs/heads/main; then
+          branch="main"
+        elif git -C "$dir" show-ref --verify --quiet refs/heads/master; then
+          branch="master"
+        else
+          printf "${red}✗${reset} %-28s no default branch\n" "$name" > "$tmpdir/$name"
+          return
+        fi
+      fi
+
+      current=$(git -C "$dir" branch --show-current 2>/dev/null)
+
+      if [[ "$current" == "$branch" ]]; then
+        # On the default branch: pull
+        out=$(git -C "$dir" pull --ff-only --quiet origin "$branch" 2>&1)
+        if [[ $? -eq 0 ]]; then
+          printf "${green}✓${reset} %-28s updated ($branch)\n" "$name" > "$tmpdir/$name"
+        else
+          printf "${yellow}~${reset} %-28s local changes block pull ($branch)\n" "$name" > "$tmpdir/$name"
+        fi
+      else
+        # On a feature branch: update local default branch ref directly without switching
+        out=$(git -C "$dir" fetch origin "${branch}:${branch}" --quiet 2>&1)
+        if [[ $? -eq 0 ]]; then
+          printf "${green}✓${reset} %-28s updated ($branch)\n" "$name" > "$tmpdir/$name"
+        else
+          out=$(git -C "$dir" fetch origin "$branch" --quiet 2>&1)
+          if [[ $? -ne 0 ]]; then
+            printf "${red}✗${reset} %-28s $out\n" "$name" > "$tmpdir/$name"
+          else
+            printf "${yellow}~${reset} %-28s $branch diverged from origin, manual merge needed\n" "$name" > "$tmpdir/$name"
+          fi
+        fi
+      fi
+    ) &
+  done
+
+  wait
+  for f in $(ls "$tmpdir" | sort); do cat "$tmpdir/$f"; done
+  rm -rf "$tmpdir"
+}
+
+# Socket Firewall — route package managers through sfw
+if command -v sfw >/dev/null 2>&1; then
+  npm()   { sfw npm   "$@"; }
+  yarn()  { sfw yarn  "$@"; }
+  pnpm()  { sfw pnpm  "$@"; }
+  pip()   { sfw pip   "$@"; }
+  pip3()  { sfw pip3  "$@"; }
+  uv()    { sfw uv    "$@"; }
+  cargo() { sfw cargo "$@"; }
+fi

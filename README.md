@@ -39,6 +39,11 @@
 
   mise trust --all
   ln -s ~/.macsetup/dotfiles/mise.toml ~/.config/mise.toml
+
+  ln -s ~/.macsetup/dotfiles/.npmrc ~/.npmrc
+  ln -s ~/.macsetup/dotfiles/.bunfig.toml ~/.bunfig.toml
+  mkdir -p ~/.config/uv && ln -s ~/.macsetup/dotfiles/uv.toml ~/.config/uv/uv.toml
+  mkdir -p ~/.config/pnpm && ln -s ~/.macsetup/dotfiles/pnpm-rc ~/.config/pnpm/rc
   ```
 
 - Install the software listed in the Brewfile:
@@ -90,3 +95,11 @@
 
 - [Setup local git to your github account](https://gist.github.com/letiesperon/ce8217bc99195032f9dda3c67b424150)
 - [Setup Sublime preferences](https://gist.github.com/letiesperon/7090a100902871cb2b9f6941a1f430ed)
+
+- Install [sfw](https://docs.socket.dev/docs/socket-firewall-free#macos-apple-silicon) for Package Protection (with curl to avoid dealing with node version stuff)
+
+```
+curl -L -o sfw https://github.com/SocketDev/sfw-free/releases/latest/download/sfw-free-macos-x86_64
+chmod +x sfw
+sudo mv sfw /usr/local/bin/
+```
