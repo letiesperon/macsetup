@@ -7,7 +7,7 @@ brew "zsh"
 brew "mise"
 brew "ruby-build" # Required by mise to install ruby
 
-brew "warp" # terminal
+cask "ghostty" # terminal
 brew "wget"
 brew "chatgpt"
 
