@@ -104,7 +104,7 @@
   "enabledPlugins": {
     "swift-lsp@claude-plugins-official": true,
     "warp@claude-code-warp": true,
-    "rc-skills@c": true
+    "rc-skills@cat-skills": true
   },
   "extraKnownMarketplaces": {
     "claude-code-warp": {

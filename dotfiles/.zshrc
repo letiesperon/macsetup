@@ -86,7 +86,7 @@ alias stouch='function _mkfile() { mkdir -p "$(dirname "$1")" && touch "$1"; }; 
 alias killpg='pkill -9 postgres'
 
 # Spotify Downloader - Download playlists and songs easily
-alias spotify='/Users/letiesperon/.local/bin/spotify-download'
+alias spotify="$HOME/.local/bin/spotify-download"
 
 source $ZSH/oh-my-zsh.sh
 
@@ -155,7 +155,7 @@ rspec_diff() {
   bundle exec rspec "${specs[@]}"
 }
 
-alias spotify-failed="/Users/letiesperon/.local/bin/spotify-failed"
+alias spotify-failed="$HOME/.local/bin/spotify-failed"
 
 export PATH="$HOME/.local/bin:$PATH"
 
@@ -257,7 +257,7 @@ complete -C /opt/homebrew/bin/aws-sso aws-sso
 # END_AWS_SSO_CLI
 
 # bun completions
-[ -s "/Users/letiesperon/.bun/_bun" ] && source "/Users/letiesperon/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
